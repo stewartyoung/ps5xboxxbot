@@ -39,7 +39,7 @@ data["xboxx_game"] = {
 # best to start up all tabs first and refresh individually
 browser = webdriver.Chrome("./chromedriver")
 
-for i, (key, value) in enumerate(data.items()):
+for key, value in data.items():
     print(key)
     # ps5 amazon
     if key == "ps5_amazon":
@@ -105,14 +105,13 @@ for i, (key, value) in enumerate(data.items()):
         browser.execute_script("window.open('about:blank', 'tab5');")
         browser.switch_to.window("tab5")
         browser.get(data[key]["url"])
+        time.sleep(random.randrange(3, 4))
         # # close cookies policy
         browser.find_element_by_class_name(data[key]["cookieClass"]).click()
         # try clicking on console page
         anchors = browser.find_elements_by_xpath("//a")
         shopall = browser.find_element_by_xpath(
             '//a[@href="' + data[key]["anchorBefore"]+'"]')
-        # print(anchors)
-        # print(len(anchors))
         # ps5 anchor is after the shop all anchor
         shopAllIndex = anchors.index(shopall)
         buy = anchors[shopAllIndex+1]
@@ -132,6 +131,7 @@ for i, (key, value) in enumerate(data.items()):
         browser.execute_script("window.open('about:blank', 'tab6');")
         browser.switch_to.window("tab6")
         browser.get(data[key]["url"])
+        time.sleep(random.randrange(3, 4))
         # try clicking on console page
         anchors = browser.find_elements_by_xpath("//a")
         shopall = browser.find_element_by_xpath(
@@ -158,7 +158,119 @@ for i, (key, value) in enumerate(data.items()):
     #     # xbox x argos
     # if key == ps5amazon:
 
-while False:
-    counter = 0
+i = 0
+
+while i >= 0:
+
     # loop over the tabs refreshing repeatedly
-    for i in range(1, len(data))
+    if i == 0:
+        browser.switch_to.window(browser.window_handles[i])
+        # browser.switch_to.window("tab"+str(i+1))
+        browser.refresh()
+        time.sleep(random.randrange(1, 2))
+        try:
+            add_to_basket = browser.find_element_by_id(
+                'add-to-cart-button').click()
+            time.sleep(random.randrange(1, 2))
+            browser.find_element_by_id(
+                list(data.items())[i][1]["noInsuranceId"]).click()
+            i += 1
+        except:
+            print(list(data.items())[i][0] + " not in stock")
+            i += 1
+            continue
+
+    if i == 1:
+        browser.switch_to.window(browser.window_handles[i])
+        browser.refresh()
+        time.sleep(random.randrange(1, 2))
+        # change from xbox remote to xbox series x tab
+        browser.find_element_by_id(
+            list(data.items())[i][1]["switchToXboxXid"]).click()
+        try:
+            add_to_basket = browser.find_element_by_id(
+                'add-to-cart-button').click()
+            time.sleep(random.randrange(1, 2))
+            browser.find_element_by_id(
+                list(data.items())[i][1]["noInsuranceId"]).click()
+            i += 1
+        except:
+            print(list(data.items())[i][0] + " not in stock")
+            i += 1
+            continue
+
+    if i == 2:
+        browser.switch_to.window(browser.window_handles[i])
+        browser.refresh()
+        time.sleep(random.randrange(1, 2))
+        try:
+            add_to_basket = browser.find_element_by_id(
+                list(data.items())[i][1]['addToBasketId']).click()
+            i += 1
+        except:
+            print(list(data.items())[i][0] + " not in stock")
+            i += 1
+            continue
+
+    if i == 3:
+        browser.switch_to.window(browser.window_handles[i])
+        browser.refresh()
+        time.sleep(random.randrange(1, 2))
+        try:
+            add_to_basket = browser.find_element_by_id(
+                list(data.items())[i][1]['addToBasketId']).click()
+            i += 1
+        except:
+            print(list(data.items())[i][0] + " not in stock")
+            i += 1
+            continue
+
+    if i == 4:
+        browser.switch_to.window(browser.window_handles[i])
+        browser.refresh()
+        time.sleep(random.randrange(3, 4))
+        anchors = browser.find_elements_by_xpath("//a")
+        shopall = browser.find_element_by_xpath(
+            '//a[@href="' + list(data.items())[i][1]["anchorBefore"]+'"]')
+        # ps5 anchor is after the shop all anchor
+        shopAllIndex = anchors.index(shopall)
+        buy = anchors[shopAllIndex+1]
+        if buy.get_attribute("href") != "javascript:void(0);":
+            try:
+                # try clicking on console page
+                buy.click()
+                i += 1
+            except:
+                print(list(data.items())[i][0] + " not in stock")
+                i += 1
+                continue
+        else:
+            print(list(data.items())[i][0] +
+                  " not in stock javascript:void(0)")
+            i += 1
+            continue
+
+    if i == 5:
+        browser.switch_to.window(browser.window_handles[i])
+        browser.refresh()
+        time.sleep(random.randrange(3, 4))
+        anchors = browser.find_elements_by_xpath("//a")
+        shopall = browser.find_element_by_xpath(
+            '//a[@href="' + list(data.items())[i][1]["anchorBefore"]+'"]')
+        # ps5 anchor is after the shop all anchor
+        shopAllIndex = anchors.index(shopall)
+        buy = anchors[shopAllIndex+1]
+        if buy.get_attribute("href") != "javascript:void(0);":
+            try:
+                # try clicking on console page
+                buy.click()
+                i = 0
+            except:
+                print(list(data.items())[i][0] + " not in stock")
+                i = 0
+                continue
+        else:
+            print(list(data.items())[i][0] +
+                  " not in stock javascript:void(0)")
+            i = 0
+            continue
