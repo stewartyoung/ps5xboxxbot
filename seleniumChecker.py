@@ -5,7 +5,7 @@ import collections
 
 data = collections.OrderedDict()
 data["ps5_amazon"] = {
-    "url": "https://www.amazon.co.uk/gp/product/B08H95Y452/",
+    "url": "https://www.amazon.co.uk/PlayStation-9395003-5-Console/dp/B08H95Y452/",
     "cookieId": "sp-cc-accept",
     "addToBasketId": "add-to-cart-button",
     "noInsuranceId": "attachSiNoCoverage-announce"
@@ -28,11 +28,13 @@ data["xboxx_smyths"] = {
 data["ps5_game"] = {
     "url": "https://www.game.co.uk/playstation-5",
     "anchorBefore": "/en/digital/?attributeName1=Platform&attributeValue1=4294954047&cm_sp=PlayStationHardwarePage-_-Digital-_-ShopAll",
-    "cookieClass": "accept"
+    "cookieClass": "accept",
+    "basketClass": 'addToBasket'
 }
 data["xboxx_game"] = {
     "url": "https://www.game.co.uk/webapp/wcs/stores/servlet/HubArticleView?hubId=2626751&articleId=2626751&catalogId=10201&langId=44&storeId=10151",
-    "anchorBefore": "/en/accessories/xbox-series?cm_sp=XboxSeriesXHardwarePage-_-Accessories-_-shopall"
+    "anchorBefore": "/en/accessories/xbox-series?cm_sp=XboxSeriesXHardwarePage-_-Accessories-_-shopall",
+    "basketClass": 'addToBasket'
 }
 
 
@@ -119,6 +121,9 @@ for key, value in data.items():
             try:
                 # try clicking on console page
                 buy.click()
+                time.sleep(random.randrange(2, 3))
+                add_to_basket = browser.find_element_by_class_name(
+                    data[key]["basketClass"]).click()
             except:
                 print(key + " not in stock")
                 continue
@@ -145,6 +150,9 @@ for key, value in data.items():
             try:
                 # try clicking on console page
                 buy.click()
+                time.sleep(random.randrange(2, 3))
+                add_to_basket = browser.find_element_by_class_name(
+                    data[key]["basketClass"]).click()
             except:
                 print(key + " not in stock")
                 continue
@@ -239,6 +247,9 @@ while i >= 0:
             try:
                 # try clicking on console page
                 buy.click()
+                time.sleep(random.randrange(2, 3))
+                add_to_basket = browser.find_element_by_class_name(
+                    list(data.items())[i][1]["basketClass"]).click()
                 i += 1
             except:
                 print(list(data.items())[i][0] + " not in stock")
@@ -264,6 +275,9 @@ while i >= 0:
             try:
                 # try clicking on console page
                 buy.click()
+                time.sleep(random.randrange(2, 3))
+                add_to_basket = browser.find_element_by_class_name(
+                    list(data.items())[i][1]["basketClass"]).click()
                 i = 0
             except:
                 print(list(data.items())[i][0] + " not in stock")
