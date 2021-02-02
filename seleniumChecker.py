@@ -95,8 +95,6 @@ for key, value in data.items():
         accept_cookies = browser.find_element_by_id(
             data[key]['cookieId']).click()
         time.sleep(random.randrange(1, 2))
-        sendSuccessEmail(subject=key + " added to basket!!",
-                         url=data[key]["url"])
         try:
             add_to_basket = browser.find_element_by_id(
                 'add-to-cart-button').click()
