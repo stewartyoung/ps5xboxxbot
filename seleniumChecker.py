@@ -230,7 +230,13 @@ for key, value in data.items():
                     data[key]["configureButton"]).is_enabled():
                 configure = browser.find_element_by_id(
                     data[key]["configureButton"]).click()
-                sendSuccessEmail(subject=key + " added to basket!!",
+                if browser.find_element_by_xpath('//button[@role="option"]').is_enabled():
+                    browser.find_element_by_xpath('//button[@role="option"]').click()
+                        if browser.find_element_by_class_name(
+                        'c-button').is_enabled():
+                            add_to_cart = browser.find_element_by_class_name(
+                        'c-button').is_enabled()
+                            sendSuccessEmail(subject=key + " added to basket!!",
                                  url=data[key]["url"])
             else:
                 raise Exception('configure button not clickable')
@@ -378,11 +384,17 @@ while i >= 0:
         time.sleep(random.randrange(2, 3))
         try:
             if browser.find_element_by_id(
-                    list(data.items())[i][1]["configureButton"]).is_enabled():
+                    data[key]["configureButton"]).is_enabled():
                 configure = browser.find_element_by_id(
-                    list(data.items())[i][1]["configureButton"]).click()
-                sendSuccessEmail(subject=list(data.items())[i][0] + " added to basket!!",
-                                 url=list(data.items())[i][1]["url"])
+                    data[key]["configureButton"]).click()
+                if browser.find_element_by_xpath('//button[@role="option"]').is_enabled():
+                    browser.find_element_by_xpath('//button[@role="option"]').click()
+                        if browser.find_element_by_class_name(
+                        'c-button').is_enabled():
+                            add_to_cart = browser.find_element_by_class_name(
+                        'c-button').is_enabled()
+                            sendSuccessEmail(subject=key + " added to basket!!",
+                                 url=data[key]["url"])
                 i = 0
             else:
                 raise Exception('configure button not clickable')
