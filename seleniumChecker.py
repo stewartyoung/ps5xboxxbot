@@ -225,10 +225,15 @@ for key, value in data.items():
         browser.get(data[key]["url"])
         time.sleep(random.randrange(1, 2))
         try:
-            configure = browser.find_element_by_id(
-                data[key]["configureButton"]).click()
-            sendSuccessEmail(subject=key + " added to basket!!",
-                             url=data[key]["url"])
+            time.sleep(random.randrange(2, 3))
+            if browser.find_element_by_id(
+                    data[key]["configureButton"]).is_enabled():
+                configure = browser.find_element_by_id(
+                    data[key]["configureButton"]).click()
+                sendSuccessEmail(subject=key + " added to basket!!",
+                                 url=data[key]["url"])
+            else:
+                raise Exception('configure button not clickable')
         except:
             print(key + " not in stock")
             continue
@@ -365,4 +370,21 @@ while i >= 0:
             print(list(data.items())[i][0] +
                   " not in stock javascript:void(0)")
             i = 0
+            continue
+
+    if i == 6:
+        browser.switch_to.window(browser.window_handles[i])
+        browser.refresh()
+        time.sleep(random.randrange(2, 3))
+        try:
+            if browser.find_element_by_id(
+                    list(data.items())[i][1]["configureButton"]).is_enabled():
+                configure = browser.find_element_by_id(
+                    list(data.items())[i][1]["configureButton"]).click()
+                sendSuccessEmail(subject=list(data.items())[i][0] + " added to basket!!",
+                                 url=list(data.items())[i][1]["url"])
+            else:
+                raise Exception('configure button not clickable')
+        except:
+            print(key + " not in stock")
             continue
