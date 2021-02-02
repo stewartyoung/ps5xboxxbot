@@ -361,15 +361,15 @@ while i >= 0:
                     list(data.items())[i][1]["basketClass"]).click()
                 sendSuccessEmail(subject=list(data.items())[i][0] + " added to basket!!",
                                  url=list(data.items())[i][1]["url"])
-                i = 0
+                i += 1
             except:
                 print(list(data.items())[i][0] + " not in stock")
-                i = 0
+                i += 1
                 continue
         else:
             print(list(data.items())[i][0] +
                   " not in stock javascript:void(0)")
-            i = 0
+            i += 1
             continue
 
     if i == 6:
@@ -383,8 +383,10 @@ while i >= 0:
                     list(data.items())[i][1]["configureButton"]).click()
                 sendSuccessEmail(subject=list(data.items())[i][0] + " added to basket!!",
                                  url=list(data.items())[i][1]["url"])
+                i = 0
             else:
                 raise Exception('configure button not clickable')
         except:
             print(key + " not in stock")
+            i = 0
             continue
