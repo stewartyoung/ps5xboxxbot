@@ -71,7 +71,7 @@ data["xboxx_game"] = {
 }
 
 data["xboxs_microsoft"] = {
-    "url": "https://www.microsoft.com/en-gb/p/xbox-series-x/942j774tp9jn",
+    "url": "https://www.microsoft.com/en-gb/p/xbox-series-x/942j774tp9jn?activetab=pivot%3aoverviewtab",
     'configureButton': "buttons_ConfigureDeviceButton"
 }
 
@@ -85,7 +85,7 @@ data["xboxs_microsoft"] = {
 
 
 # best to start up all tabs first and refresh individually
-browser = webdriver.Chrome("./chromedriver")
+browser = webdriver.Chrome("chromedriver")
 
 for key, value in data.items():
     print(key)
