@@ -37,6 +37,11 @@ data["xboxx_game"] = {
     "basketClass": 'addToBasket'
 }
 
+data["xboxs_microsoft"] = {
+    "url": "https://www.microsoft.com/en-gb/p/xbox-series-x/942j774tp9jn",
+    'configureButton': "buttons_ConfigureDeviceButton"
+}
+
 
 # best to start up all tabs first and refresh individually
 browser = webdriver.Chrome("./chromedriver")
@@ -160,8 +165,18 @@ for key, value in data.items():
             print(key + " not in stock javascript:void(0)")
             continue
 
-    #     # ps5 argos
-    # if key == ps5amazon:
+    # xbox s microsoft
+    if key == "xboxs_microsoft":
+        browser.execute_script("window.open('about:blank', 'tab7');")
+        browser.switch_to.window("tab7")
+        browser.get(data[key]["url"])
+        time.sleep(random.randrange(1, 2))
+        try:
+            configure = browser.find_element_by_id(
+                data[key]["configureButton"]).click()
+        except:
+            print(key + " not in stock")
+            continue
 
     #     # xbox x argos
     # if key == ps5amazon:
