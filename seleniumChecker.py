@@ -1,9 +1,40 @@
 from selenium import webdriver
 import time
+from datetime import datetime
 import random
 import collections
+# import smtplib for actual email sending function
+import smtplib
+# import email modules required
+from email.mime.text import MIMEText
+
+# create a function to send an email with the url if something has come in stock
+# and may be in the basket
+gmail_user = input("Input your email: ")
+gmail_password = input("Input your email password: ")
+
+
+def sendSuccessEmail(subject, url):
+    datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    msg = MIMEText(url + "\n\nCongrats from the console bot!")
+    msg['Subject'] = subject
+
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    server.ehlo()
+    server.login(gmail_user, gmail_password)
+    server.sendmail(gmail_user,
+                    [gmail_user], msg.as_string())
+    server.quit()
+
 
 data = collections.OrderedDict()
+# test amazon on xbox one
+# data['ps5_amazon'] = {
+#     "url": "https://www.amazon.co.uk/Microsoft-Xbox-One-1TB-Console/dp/B01M5FMXHZ/",
+#     "cookieId": "sp-cc-accept",
+#     "addToBasketId": "add-to-cart-button",
+#     "noInsuranceId": "attachSiNoCoverage-announce"
+# }
 data["ps5_amazon"] = {
     "url": "https://www.amazon.co.uk/PlayStation-9395003-5-Console/dp/B08H95Y452/",
     "cookieId": "sp-cc-accept",
@@ -13,6 +44,8 @@ data["ps5_amazon"] = {
 data["xboxx_amazon"] = {
     'url': "https://www.amazon.co.uk/Xbox-Series-S/dp/B08H93GKNJ/ref=twister_B08JHLMGZB?_encoding=UTF8&psc=1",
     'switchToXboxXid': "a-autoid-15-announce",
+    "addToBasketId": "add-to-cart-button",
+    "noInsuranceId": "attachSiNoCoverage-announce"
 
 }
 data["ps5_smyths"] = {
@@ -42,6 +75,14 @@ data["xboxs_microsoft"] = {
     'configureButton': "buttons_ConfigureDeviceButton"
 }
 
+# data["ps4_very"] = {
+#     "url": "hi"
+# }
+
+# data["xboxx_very"] = {
+#     "url": "hi"
+# }
+
 
 # best to start up all tabs first and refresh individually
 browser = webdriver.Chrome("./chromedriver")
@@ -54,11 +95,15 @@ for key, value in data.items():
         accept_cookies = browser.find_element_by_id(
             data[key]['cookieId']).click()
         time.sleep(random.randrange(1, 2))
+        sendSuccessEmail(subject=key + " added to basket!!",
+                         url=data[key]["url"])
         try:
             add_to_basket = browser.find_element_by_id(
                 'add-to-cart-button').click()
-            time.sleep(random.randrange(1, 2))
+            time.sleep(random.randrange(2, 3))
             browser.find_element_by_id(data[key]["noInsuranceId"]).click()
+            sendSuccessEmail(subject=key + " added to basket!!",
+                             url=data[key]["url"])
         except:
             print(key + " not in stock")
             continue
@@ -73,8 +118,10 @@ for key, value in data.items():
         try:
             add_to_basket = browser.find_element_by_id(
                 'add-to-cart-button').click()
-            time.sleep(random.randrange(1, 2))
+            time.sleep(random.randrange(2, 3))
             browser.find_element_by_id(data[key]["noInsuranceId"]).click()
+            sendSuccessEmail(subject=key + " added to basket!!",
+                             url=data[key]["url"])
         except:
             print(key + " not in stock")
             continue
@@ -91,6 +138,8 @@ for key, value in data.items():
         try:
             add_to_basket = browser.find_element_by_id(
                 data[key]['addToBasketId']).click()
+            sendSuccessEmail(subject=key + " added to basket!!",
+                             url=data[key]["url"])
         except:
             print(key + " not in stock")
             continue
@@ -103,6 +152,8 @@ for key, value in data.items():
         try:
             add_to_basket = browser.find_element_by_id(
                 data[key]['addToBasketId']).click()
+            sendSuccessEmail(subject=key + " added to basket!!",
+                             url=data[key]["url"])
         except:
             print(key + " not in stock")
             continue
@@ -129,6 +180,8 @@ for key, value in data.items():
                 time.sleep(random.randrange(2, 3))
                 add_to_basket = browser.find_element_by_class_name(
                     data[key]["basketClass"]).click()
+                sendSuccessEmail(subject=key + " added to basket!!",
+                                 url=data[key]["url"])
             except:
                 print(key + " not in stock")
                 continue
@@ -158,6 +211,8 @@ for key, value in data.items():
                 time.sleep(random.randrange(2, 3))
                 add_to_basket = browser.find_element_by_class_name(
                     data[key]["basketClass"]).click()
+                sendSuccessEmail(subject=key + " added to basket!!",
+                                 url=data[key]["url"])
             except:
                 print(key + " not in stock")
                 continue
@@ -174,18 +229,16 @@ for key, value in data.items():
         try:
             configure = browser.find_element_by_id(
                 data[key]["configureButton"]).click()
+            sendSuccessEmail(subject=key + " added to basket!!",
+                             url=data[key]["url"])
         except:
             print(key + " not in stock")
             continue
 
-    #     # xbox x argos
-    # if key == ps5amazon:
-
 i = 0
-
 while i >= 0:
-
     # loop over the tabs refreshing repeatedly
+
     if i == 0:
         browser.switch_to.window(browser.window_handles[i])
         # browser.switch_to.window("tab"+str(i+1))
@@ -197,6 +250,8 @@ while i >= 0:
             time.sleep(random.randrange(1, 2))
             browser.find_element_by_id(
                 list(data.items())[i][1]["noInsuranceId"]).click()
+            sendSuccessEmail(subject=list(data.items())[i][0] + " added to basket!!",
+                             url=list(data.items())[i][1]["url"])
             i += 1
         except:
             print(list(data.items())[i][0] + " not in stock")
@@ -216,6 +271,8 @@ while i >= 0:
             time.sleep(random.randrange(1, 2))
             browser.find_element_by_id(
                 list(data.items())[i][1]["noInsuranceId"]).click()
+            sendSuccessEmail(subject=list(data.items())[i][0] + " added to basket!!",
+                             url=list(data.items())[i][1]["url"])
             i += 1
         except:
             print(list(data.items())[i][0] + " not in stock")
@@ -229,6 +286,8 @@ while i >= 0:
         try:
             add_to_basket = browser.find_element_by_id(
                 list(data.items())[i][1]['addToBasketId']).click()
+            sendSuccessEmail(subject=list(data.items())[i][0] + " added to basket!!",
+                             url=list(data.items())[i][1]["url"])
             i += 1
         except:
             print(list(data.items())[i][0] + " not in stock")
@@ -242,6 +301,8 @@ while i >= 0:
         try:
             add_to_basket = browser.find_element_by_id(
                 list(data.items())[i][1]['addToBasketId']).click()
+            sendSuccessEmail(subject=list(data.items())[i][0] + " added to basket!!",
+                             url=list(data.items())[i][1]["url"])
             i += 1
         except:
             print(list(data.items())[i][0] + " not in stock")
@@ -265,6 +326,8 @@ while i >= 0:
                 time.sleep(random.randrange(2, 3))
                 add_to_basket = browser.find_element_by_class_name(
                     list(data.items())[i][1]["basketClass"]).click()
+                sendSuccessEmail(subject=list(data.items())[i][0] + " added to basket!!",
+                                 url=list(data.items())[i][1]["url"])
                 i += 1
             except:
                 print(list(data.items())[i][0] + " not in stock")
@@ -293,6 +356,8 @@ while i >= 0:
                 time.sleep(random.randrange(2, 3))
                 add_to_basket = browser.find_element_by_class_name(
                     list(data.items())[i][1]["basketClass"]).click()
+                sendSuccessEmail(subject=list(data.items())[i][0] + " added to basket!!",
+                                 url=list(data.items())[i][1]["url"])
                 i = 0
             except:
                 print(list(data.items())[i][0] + " not in stock")
