@@ -3,3 +3,4 @@
 - [ ] make rotating proxies
 - [ ] onboard argos
 - [ ] onboard very
+- [ ] onboard currys
