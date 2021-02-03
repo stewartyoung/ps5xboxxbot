@@ -83,6 +83,17 @@ data["xboxs_microsoft"] = {
 #     "url": "hi"
 # }
 
+# data["ps4_argos"] = {
+#     "url": "hi"
+# }
+
+# data["xboxx_argos"] = {
+#     "url": "hi"
+# }
+
+# data["xboxs_currys"] = {
+#     "url": "https://www.currys.co.uk/gbuk/gaming/console-gaming/consoles/microsoft-xbox-series-s-512-gb-ssd-10205195-pdt.html"
+# }
 
 # best to start up all tabs first and refresh individually
 browser = webdriver.Chrome("chromedriver")
